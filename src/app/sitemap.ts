@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/content/brand";
+
+export const dynamic = "force-static";
 import { PRODUCTS } from "@/content/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
