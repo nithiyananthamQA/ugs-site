@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Clean dark teal base, minimal -->
+    <linearGradient id="base" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#0a2e2d"/>
+      <stop offset="0.55" stop-color="#051c1c"/>
+      <stop offset="1" stop-color="#020e10"/>
+    </linearGradient>
+
+    <!-- Large warm golden bloom, top-left -->
+    <radialGradient id="bloom1" cx="0.18" cy="0.22" r="0.6">
+      <stop offset="0" stop-color="#e4b370" stop-opacity="0.75"/>
+      <stop offset="0.25" stop-color="#d2a15a" stop-opacity="0.3"/>
+      <stop offset="0.6" stop-color="#d2a15a" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#051c1c" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Soft blush moon, mid-right -->
+    <radialGradient id="bloom2" cx="0.82" cy="0.56" r="0.42">
+      <stop offset="0" stop-color="#f3d3b2" stop-opacity="0.3"/>
+      <stop offset="0.45" stop-color="#e8c3a1" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#051c1c" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Deep shadow, bottom-left -->
+    <radialGradient id="shadow" cx="0.1" cy="1" r="0.5">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="blur-xl">
+      <feGaussianBlur stdDeviation="80"/>
+    </filter>
+    <filter id="blur-lg">
+      <feGaussianBlur stdDeviation="42"/>
+    </filter>
+  </defs>
+
+  <!-- Base -->
+  <rect width="1920" height="1200" fill="url(#base)"/>
+
+  <!-- Big soft bloom — out-of-focus light -->
+  <circle cx="260" cy="220" r="520" fill="#d2a15a" opacity="0.22" filter="url(#blur-xl)"/>
+  <circle cx="1520" cy="760" r="460" fill="#e8c3a1" opacity="0.14" filter="url(#blur-xl)"/>
+
+  <!-- Soft inner highlight -->
+  <ellipse cx="400" cy="340" rx="260" ry="180" fill="#f6d5a6" opacity="0.18" filter="url(#blur-lg)"/>
+
+  <!-- Gradient overlays -->
+  <rect width="1920" height="1200" fill="url(#bloom1)"/>
+  <rect width="1920" height="1200" fill="url(#bloom2)"/>
+  <rect width="1920" height="1200" fill="url(#shadow)"/>
+
+  <!-- A single hairline horizon, very subtle — one accent only -->
+  <line x1="0" y1="840" x2="1920" y2="800" stroke="#d2a15a" stroke-opacity="0.1" stroke-width="1"/>
+
+  <!-- One delicate gold arc — suggestion of a thread, not a pattern -->
+  <path d="M -100 960 Q 700 700 1300 760 T 2100 640"
+        fill="none"
+        stroke="#d2a15a"
+        stroke-opacity="0.14"
+        stroke-width="1.4"/>
+</svg>

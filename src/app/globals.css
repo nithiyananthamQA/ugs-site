@@ -1,26 +1,349 @@
 @import "tailwindcss";
 
+@theme {
+  --color-teal-deep: #0d3b3a;
+  --color-teal-mid: #174f4d;
+  --color-teal-ink: #061f1f;
+  --color-ivory: #f6f1e7;
+  --color-ivory-soft: #ede6d5;
+  --color-cream: #fbf6ec;
+  --color-gold: #d2a15a;
+  --color-gold-soft: #e6c084;
+  --color-gold-deep: #a67a3f;
+  --color-blush: #e8c3a1;
+  --color-ink: #111111;
+  --color-ink-soft: #2a2a2a;
+  --color-sage: #9fb3a9;
+  --color-whatsapp: #25d366;
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --bg: var(--color-ivory);
+  --fg: var(--color-ink);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Subtle recurring warm-undertone pattern so light sections feel connected */
+.themed-light {
+  background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--color-gold) 6%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, color-mix(in oklab, var(--color-teal-deep) 4%, transparent), transparent 60%);
+}
+.themed-cream {
+  background-color: var(--color-cream);
+  background-image:
+    radial-gradient(1000px 500px at 90% 110%, color-mix(in oklab, var(--color-gold) 7%, transparent), transparent 60%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  letter-spacing: -0.005em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-teal-deep);
+}
+
+/* Film-grain overlay — on sections */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Glassmorphism — light (on dark) and dark (on light) */
+.glass-light {
+  background: color-mix(in oklab, #ffffff 10%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in oklab, #ffffff 18%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, #ffffff 10%, transparent) inset,
+    0 24px 40px -24px rgba(0, 0, 0, 0.35);
+}
+
+.glass-ivory {
+  background: color-mix(in oklab, #f6f1e7 55%, transparent);
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  border: 1px solid color-mix(in oklab, #0d3b3a 10%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, #ffffff 40%, transparent) inset,
+    0 24px 40px -28px rgba(13, 59, 58, 0.18);
+}
+
+.glass-dark {
+  background: color-mix(in oklab, #0d3b3a 38%, transparent);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid color-mix(in oklab, #f6f1e7 14%, transparent);
+}
+
+.glass-gold {
+  background: color-mix(in oklab, #d2a15a 14%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in oklab, #d2a15a 30%, transparent);
+}
+
+@supports not ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
+  .glass-light { background: color-mix(in oklab, #ffffff 16%, transparent); }
+  .glass-ivory { background: color-mix(in oklab, #f6f1e7 92%, transparent); }
+  .glass-dark { background: color-mix(in oklab, #0d3b3a 80%, transparent); }
+  .glass-gold { background: color-mix(in oklab, #d2a15a 22%, transparent); }
+}
+
+/* Reveal utilities — controlled by IntersectionObserver */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Word-mask reveal */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.05;
+  padding-bottom: 0.02em;
+}
+.word-mask > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1s var(--ease-out-expo);
+  will-change: transform;
+}
+.word-mask.is-in > span {
+  transform: translateY(0);
+}
+
+/* Infinite marquee */
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marquee-x-rev {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.marquee-track.reverse {
+  animation-name: marquee-x-rev;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Scroll progress indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-gold);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 50;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track { animation: none !important; }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  .word-mask > span { transform: none; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Typography — Inter-only, weight-driven hierarchy */
+h1, h2, h3 {
+  text-wrap: balance;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1;
+}
+
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  line-height: 0.98;
+  font-feature-settings: "ss01", "cv11";
+}
+
+.display-tight {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.display-italic {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.024em;
+  line-height: 1;
+}
+
+.eyebrow {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Hero entrance — CSS-only, immediate visibility */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-rise {
+  animation: hero-rise 0.9s var(--ease-out-expo) both;
+  animation-delay: var(--hero-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise { animation: none !important; }
+}
+
+/* Magnetic button utility */
+.magnetic {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Soft gradient border for glass tiles */
+.border-gradient {
+  border: 1px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image:
+    linear-gradient(var(--bg), var(--bg)),
+    linear-gradient(135deg, color-mix(in oklab, var(--color-gold) 45%, transparent), color-mix(in oklab, var(--color-teal-deep) 30%, transparent));
+}
+
+/* Big numeric kicker */
+.numeric {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cohesion divider — thin line with gold dot centred, ties sections together */
+.thread-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+.thread-divider::before,
+.thread-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, currentColor 25%, transparent), transparent);
+}
+.thread-divider > span {
+  margin: 0 18px;
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-gold) 16%, transparent);
+}
+
+/* 3D-tilt card base */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+.tilt-inner {
+  transform-style: preserve-3d;
+}
+
+/* Spotlight radial used on dark hero */
+.spotlight {
+  background:
+    radial-gradient(800px 600px at 30% 20%, color-mix(in oklab, var(--color-gold) 22%, transparent), transparent 60%),
+    radial-gradient(600px 500px at 85% 80%, color-mix(in oklab, var(--color-blush) 14%, transparent), transparent 70%);
 }
